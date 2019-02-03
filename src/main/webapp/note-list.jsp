@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="img/fav.png">
-    <title>Войти</title>
+    <title>Список записей</title>
 
     <link rel="stylesheet" href="css/diary.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -39,19 +39,24 @@
                 <div class="card-body">
 
 
+
+
                     <div class="d-flex w-100 justify-content-between">
-                        <button class="btn btn-secondary my-2">Выйти из дневника</button>
+                        <button class="btn btn-secondary my-3">Выйти из дневника</button>
                         <div class="col my-1 d-flex w-100 justify-content-end">
-                            <div class="d-flex h-75 w-75 justify-content-end my-2">
+                            <div class="d-flex h-75 w-75 justify-content-end my-3">
                                 Фильтр по дате: &nbsp;
                             </div>
-                            <div class="h-75 d-flex w-75 justify-content-end my-1">
-                                <input type="text" name="daterange" class="form-control"
-                                       value="01/01/2018 - 01/15/2018">
+                            <div class="h-75 d-flex w-100 justify-content-end my-2">
+                                <input type="text" name="daterange" class="form-control" value="01/01/2018 - 01/15/2018">
                             </div>
                         </div>
-                        <button class="btn btn-primary my-2">Создать запись</button>
+                        <button class="btn btn-primary my-3">Создать запись</button>
                     </div>
+
+
+
+
 
 
                     <a href="#" class="list-group-item list-group-item-action  align-items-start">

@@ -17,12 +17,12 @@ class @EmojiPicker
       return;
     # Convert every emojiable field to an emoji area
     $(this.options.emojiable_selector).emojiarea($.extend({
-      emojiPopup: this,
-      norealTime: true,
-    }, this.options));
+        emojiPopup: this,
+        norealTime: true,
+      }, this.options));
 
 
-  generateEmojiIconSets: (options) ->
+  generateEmojiIconSets:(options) ->
     icons = {}
     reverseIcons = {}
     i = undefined
@@ -50,7 +50,7 @@ class @EmojiPicker
     $.emojiarea.icons = icons;
     $.emojiarea.reverseIcons = reverseIcons;
 
-  colonToUnicode: (input) ->
+  colonToUnicode:(input) ->
     if !input
       return ''
     if !Config.rx_colons
@@ -62,7 +62,7 @@ class @EmojiPicker
       else
         ''
 
-  appendUnicodeAsImageToElement: (element, input) ->
+  appendUnicodeAsImageToElement:(element, input) ->
     if !input
       return ''
     if !Config.rx_codes
@@ -89,7 +89,7 @@ class @EmojiPicker
       else
         ''
 
-  colonToImage: (input) ->
+  colonToImage:(input) ->
     if !input
       return ''
     if !Config.rx_colons

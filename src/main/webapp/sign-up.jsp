@@ -1,3 +1,4 @@
+<%--suppress ALL --%>
 <%--
   Created by IntelliJ IDEA.
   User: zaynu
@@ -17,7 +18,7 @@
 
     <link rel="shortcut icon" href="img/fav.png">
 
-    <title>Войти</title>
+    <title>Новый дневник</title>
 
     <link rel="stylesheet" href="css/diary.css">
 
@@ -31,7 +32,7 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Создать новый дневник</h5>
-                    <form class="form-signin">
+                    <form action="/create-diary" method="post" class="form-signin">
                         <div class="form-label-group">
                             <input type="email" id="inputEmail" class="form-control" placeholder="Логин" required
                                    autofocus>
@@ -45,7 +46,7 @@
                         </div>
 
                         <button id="button1" class="btn btn-lg btn-primary btn-block text-uppercase" type="button">
-                            Войти
+                            Создать
                         </button>
 
                         <hr class="my-4">

@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="img/fav.png">
-    <title>Войти</title>
+    <title>Войти в дневник</title>
 
     <link rel="stylesheet" href="css/diary.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">

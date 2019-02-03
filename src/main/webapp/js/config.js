@@ -3461,7 +3461,8 @@ Config.mapcolon = {};
 var a = [];
 Config.reversemap = {};
 
-Config.init_emoticons = function () {
+Config.init_emoticons = function()
+{
     if (Config.inits.emoticons)
         return;
     Config.init_colons(); // we require this for the emoticons map
@@ -3469,7 +3470,8 @@ Config.init_emoticons = function () {
 
     var a = [];
     Config.map.emoticons = {};
-    for (var i in Config.emoticons_data) {
+    for (var i in Config.emoticons_data)
+    {
         // because we never see some characters in our text except as
         // entities, we must do some replacing
         var emoticon = i.replace(/\&/g, '&amp;').replace(/\</g, '&lt;')
@@ -3484,19 +3486,23 @@ Config.init_emoticons = function () {
     Config.rx_emoticons = new RegExp(
         ('(^|\\s)(' + a.join('|') + ')(?=$|[\\s|\\?\\.,!])'), 'g');
 };
-Config.init_colons = function () {
+Config.init_colons = function()
+{
     if (Config.inits.colons)
         return;
     Config.inits.colons = 1;
     Config.rx_colons = new RegExp('\:[^\\s:]+\:', 'g');
     Config.map.colons = {};
-    for (var i in Config.data) {
-        for (var j = 0; j < Config.data[i][3].length; j++) {
+    for (var i in Config.data)
+    {
+        for (var j = 0; j < Config.data[i][3].length; j++)
+        {
             Config.map.colons[emoji.data[i][3][j]] = i;
         }
     }
 };
-Config.init_unified = function () {
+Config.init_unified = function()
+{
     if (Config.inits.unified)
         return;
     Config.inits.unified = 1;
@@ -3506,21 +3512,25 @@ Config.init_unified = function () {
 };
 
 
-Config.escape_rx = function (text) {
+Config.escape_rx = function(text)
+{
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-function buildMap() {
+function buildMap()
+{
 
-    var colons = [], codes = [];
-    for (var i in Config.emoji_data) {
-        for (var j = 0; j < Config.emoji_data[i][0].length; j++) {
-            colons.push(Config.escape_rx(":" + Config.emoji_data[i][3][0]) + ":");
+    var colons = [],codes=[];
+    for (var i in Config.emoji_data)
+    {
+        for (var j = 0; j < Config.emoji_data[i][0].length; j++)
+        {
+            colons.push(Config.escape_rx (":"+Config.emoji_data[i][3][0])+":");
             codes.push(Config.emoji_data[i][0][0]);
 
             // it is a map of {"colon smiley":"unicode char"}
             Config.map[Config.emoji_data[i][3][0]] = Config.emoji_data[i][0][0];
-            Config.mapcolon[":" + Config.emoji_data[i][3][0] + ":"] = Config.emoji_data[i][0][0];
+            Config.mapcolon[":"+Config.emoji_data[i][3][0]+":"] = Config.emoji_data[i][0][0];
             // it is a map of {"unicode char": "colon smiley"}
             Config.reversemap[Config.emoji_data[i][0][0]] = Config.emoji_data[i][3][0];
         }
