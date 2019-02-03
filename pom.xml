@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <kotlin.version>1.2.71</kotlin.version>
         <spring.v>5.1.2.RELEASE</spring.v>
         <spring.boot.v>2.1.2.RELEASE</spring.boot.v>
     </properties>
@@ -34,11 +33,6 @@
         </dependency>
 
 
-        <!--          <dependency>
-                      <groupId>org.springframework.boot</groupId>
-                      <artifactId>spring-boot-starter-data-jpa</artifactId>
-                      <version>${spring.boot.v}</version>
-                  </dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -103,6 +97,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.197</version>
         </dependency>
     </dependencies>
 
