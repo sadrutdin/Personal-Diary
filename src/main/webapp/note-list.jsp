@@ -22,10 +22,10 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css"/>
 
 </head>
 
@@ -40,24 +40,17 @@
 
 
                     <div class="d-flex w-100 justify-content-between">
-
                         <button class="btn btn-secondary my-2">Выйти из дневника</button>
-
-                        <div class="col d-flex w-100 justify-content-end">
-                            <div class="d-flex h-75 w-75 justify-content-end">
-                                Фильтр по дате:
+                        <div class="col my-1 d-flex w-100 justify-content-end">
+                            <div class="d-flex h-75 w-75 justify-content-end my-2">
+                                Фильтр по дате: &nbsp;
                             </div>
-
-                            <div class="h-75 d-flex w-75 justify-content-end">
+                            <div class="h-75 d-flex w-75 justify-content-end my-1">
                                 <input type="text" name="daterange" class="form-control"
                                        value="01/01/2018 - 01/15/2018">
-
                             </div>
                         </div>
-
-
                         <button class="btn btn-primary my-2">Создать запись</button>
-
                     </div>
 
 
@@ -91,7 +84,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <script>
