@@ -1,12 +1,12 @@
 package com.zaynukov.dev.angeldiary.service.diary;
 
-import com.zaynukov.dev.angeldiary.exception.DiaryIsNotCreateException;
+import com.zaynukov.dev.angeldiary.exception.DiaryIsExistException;
 import com.zaynukov.dev.angeldiary.exception.DiaryIsNotExistsException;
 
-public interface LoginService {
-    boolean existDiary(String login);
+import java.sql.SQLException;
 
-    void createDiary(String login, String pass) throws DiaryIsNotCreateException;
+public interface LoginService {
+    void createDiary(String login, String pass) throws DiaryIsExistException, SQLException;
 
     boolean match(String login, String pass) throws DiaryIsNotExistsException;
 }

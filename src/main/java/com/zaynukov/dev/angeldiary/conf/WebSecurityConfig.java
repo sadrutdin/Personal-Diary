@@ -9,9 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.Collections;
 
 @Component
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements AuthenticationProvider {
@@ -33,14 +35,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         http.authorizeRequests()
                 .antMatchers("/", "/sign-in", "/sign-up", "/css/**", "/img/**", "/js/**")
                 .permitAll()
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/sign-in")
+                .successForwardUrl("/note-list")
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+                .authenticationProvider(this)
+                .authorizeRequests()
+                .antMatchers("/note**")
+                .hasRole("ACTIVE")
+                .anyRequest()
+                .authenticated();
+
     }
 
 
@@ -51,7 +63,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         String pass = authentication.getCredentials().toString();
         try {
             if (loginService.match(login, pass)) {
-                return new UsernamePasswordAuthenticationToken(login, pass);
+                return new UsernamePasswordAuthenticationToken(
+                        login,
+                        pass,
+                        Collections.singleton(new SimpleGrantedAuthority("ACTIVE"))
+                );
             }
         } catch (DiaryIsNotExistsException e) {
             e.printStackTrace();
