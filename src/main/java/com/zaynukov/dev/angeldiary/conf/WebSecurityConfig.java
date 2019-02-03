@@ -2,6 +2,8 @@ package com.zaynukov.dev.angeldiary.conf;
 
 import com.zaynukov.dev.angeldiary.exception.DiaryIsNotExistsException;
 import com.zaynukov.dev.angeldiary.service.diary.LoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,6 +20,7 @@ import java.util.Collections;
 @Component
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements AuthenticationProvider {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final LoginService loginService;
 
     @Inject
@@ -63,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         String pass = authentication.getCredentials().toString();
         try {
             if (loginService.match(login, pass)) {
+                logger.info("Корррааамммбаааааа");
                 return new UsernamePasswordAuthenticationToken(
                         login,
                         pass,
@@ -70,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
                 );
             }
         } catch (DiaryIsNotExistsException e) {
-            e.printStackTrace();
+            logger.error("Дневника не существует:", e);
         }
         return null;
     }
