@@ -1,10 +1,13 @@
 package com.zaynukov.dev.angeldiary.service;
 
+import org.intellij.lang.annotations.Language;
+
 @SuppressWarnings("SqlNoDataSourceInspection")
 public final class DiaryConstants {
     private DiaryConstants() {
     }
 
+    @Language("H2")
     public final static String INIT_NEW_DIARY =
             "create table notes(" +
                     "  id             int auto_increment  primary key not null," +
