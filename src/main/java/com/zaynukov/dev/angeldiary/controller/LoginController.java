@@ -44,36 +44,6 @@ public class LoginController {
             return "sign-in";
     }
 
-//    @PostMapping("/sign-in")
-//    public ModelAndView signInProcessing(@RequestParam String login,
-//                                         @RequestParam String password) {
-//        logger.info("1111111111");
-//        boolean match;
-//        try {
-//            match = loginService.match(login, password);
-//        } catch (DiaryIsNotExistsException e) {
-//            logger.error("Дневника с таким логином '" + login + "' не существует.", e);
-//            return new ModelAndView("redirect:/sign-in")
-//                    .addObject("e", e);
-//        }
-//
-//        if (!match) return new ModelAndView("redirect:/sign-in")
-//                .addObject("status", "invalid-password");
-//
-//
-//        try {
-//
-//            return new ModelAndView("/note-list")
-//                    .addObject(noteService.allNotes(login, password));
-//
-//        } catch (SQLException e) {
-//            logger.error("Ошибка при работе с сервисом базы данных - метод получения списка всех записей дневника", e);
-//            return new ModelAndView("redirect:/sign-in")
-//                    .addObject("e", e);
-//        }
-//    }
-
-
     @GetMapping("/note-list")
     public String noteList() {
         return "note-list";
@@ -93,10 +63,7 @@ public class LoginController {
     public ModelAndView createDiary(@RequestParam String login,
                                     @RequestParam String password) {
 
-        logger.info("2222222222");
-
-
-        ModelAndView mv = new ModelAndView("redirect:/sign-in");
+        ModelAndView mv = new ModelAndView("/sign-in");
         try {
             loginService.createDiary(login, password);
         } catch (DiaryIsExistException e) {

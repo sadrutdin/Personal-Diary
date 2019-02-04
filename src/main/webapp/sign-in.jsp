@@ -1,4 +1,7 @@
+<%@ page import="com.zaynukov.dev.angeldiary.exception.DiaryIsExistException" %>
+<%@ page import="java.sql.SQLException" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: zaynu
@@ -26,6 +29,8 @@
 </head>
 
 <body>
+
+
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -40,10 +45,26 @@
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Пароль"
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="Пароль"
                                    required>
                             <label for="password">Пароль</label>
                         </div>
+
+                        <%
+                            Object obj = request.getAttribute("e");
+                            if (obj instanceof DiaryIsExistException) {
+                        %>
+                            <p class="text-center text-danger">Такой дневник уже существует</p>
+                        <%
+                            } else
+                                if (obj instanceof SQLException) {
+                        %>
+                            <p class="text-center text-danger">Ошибка при работе с базой данных. Обратитесь администратору.</p>
+                        <%  } else if (request.getParameter("error")!=null){%>
+                            <p class="text-center text-danger">Неправильный логин/пароль</p>
+
+                        <%}%>
 
                         <button id="button1" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
                             Войти
