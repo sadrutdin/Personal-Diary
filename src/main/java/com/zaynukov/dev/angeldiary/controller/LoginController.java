@@ -33,37 +33,43 @@ public class LoginController {
 
     @GetMapping("")
     public String index() {
-        return "redirect:/sign-in";
+        return "redirect:/main";
     }
 
-    @GetMapping("/sign-in")
+    @GetMapping("/login")
     public String signInPage(Authentication user) {
         if (user != null) {
-            return "redirect:/note-list";
+            return "redirect:/main";
         } else
-            return "sign-in";
+            return "login-in";
     }
 
-    @GetMapping("/note-list")
+    @GetMapping("/main")
     public String noteList() {
-        return "note-list";
+        return "main";
     }
 
-    @PostMapping("/note-list")
+    @PostMapping("/main")
     public String noteList2() {
-        return "redirect:/note-list";
+        return "redirect:/main";
     }
 
-    @GetMapping("/sign-up")
-    public String signUp() {
-        return "sign-up";
+    @GetMapping("/create-diary")
+    public String createDiary(Authentication user) {
+        if (user != null)
+            return "redirect:/main";
+        return "diary-create";
     }
 
-    @PostMapping("/sign-up")
-    public ModelAndView createDiary(@RequestParam String login,
+    @PostMapping("/create-diary")
+    public ModelAndView createDiary(Authentication user,
+                                    @RequestParam String login,
                                     @RequestParam String password) {
+            if (user != null)
+                return new ModelAndView("redirect:/main");
 
-        ModelAndView mv = new ModelAndView("/sign-in");
+
+        ModelAndView mv = new ModelAndView("login-in");
         try {
             loginService.createDiary(login, password);
         } catch (DiaryIsExistException e) {
@@ -74,6 +80,16 @@ public class LoginController {
             mv.addObject("e", e);
         }
         return mv;
+    }
+
+    @GetMapping("/create-note")
+    public ModelAndView createNotePage() {
+        return new ModelAndView("note-create");
+    }
+
+    @GetMapping("/edit-note")
+    public ModelAndView editNotePage() {
+        return new ModelAndView("note-edit");
     }
 
 

@@ -37,7 +37,7 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Войти в дневник</h5>
-                    <form:form method="post" action="/sign-in" class="form-signin">
+                    <form:form method="post" action="/login" class="form-signin">
                         <div class="form-label-group">
                             <input type="text" id="login" name="login" class="form-control" placeholder="Логин" required
                                    autofocus>
@@ -70,7 +70,8 @@
                             Войти
                         </button>
                         <hr class="my-4">
-                        <button onclick="location.href='sign-up'" id="button2"
+
+                        <button onclick="location.href='/create-diary'" id="button2"
                                 class="btn btn-lg btn-primary btn-block text-uppercase" type="button">Создать дневник
                         </button>
 

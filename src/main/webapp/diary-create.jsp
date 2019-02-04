@@ -33,7 +33,7 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Создать новый дневник</h5>
-                    <form:form action="/sign-up" method="post" class="form-signin">
+                    <form:form action="/create-diary" method="post" class="form-signin">
                         <div class="form-label-group">
                             <input type="text" id="login" name="login" class="form-control" placeholder="Логин" required
                                    autofocus>

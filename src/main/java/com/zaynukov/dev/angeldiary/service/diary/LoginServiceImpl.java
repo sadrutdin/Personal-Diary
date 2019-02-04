@@ -53,9 +53,8 @@ class LoginServiceImpl implements LoginService {
             boolean r = rs.next();
             connection.close();
             return r;
-        } catch (SQLException e) {
+        } catch ( SQLException e) {
             logger.error("Ошибка при работе с БД.", e);
-            System.exit(-1);
             return false;
         }
     }

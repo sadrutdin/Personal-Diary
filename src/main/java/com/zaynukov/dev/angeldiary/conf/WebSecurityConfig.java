@@ -38,16 +38,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()                                                       // Авторизовать соединения
-                .antMatchers("/", "/login", "/sign-in", "/sign-up", "/css/**", "/img/**", "/js/**")  // Для указанных страниц
+                .antMatchers("/", "/login", "/create-diary", "/css/**", "/img/**", "/js/**")                // Для указанных страниц
                 .permitAll()                                                               // Доступ всем
                 .anyRequest()                                                              // Любые соединения
                 .authenticated()                                                           // Авторизовать
-                .and()                                                                         // и
+                .and()                                                                     // и
                 .formLogin()                                                               // Форма входа
-                .loginPage("/sign-in")                                                     // На этом контексте
+                .loginPage("/login")                                                       // На этом контексте
                 .usernameParameter("login")                                                // Имя параметра имени пользователя
                 .passwordParameter("password")                                             // Имя параметра пароля
-                .successForwardUrl("/note-list")                                           // При успешной авторизации переслать
+                .successForwardUrl("/main")                                                // При успешной авторизации переслать
                 .permitAll()                                                               // Доступ всем
                 .and()                                                                     // и
                 .logout()                                                                  // страница выхода
@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
                 .and()                                                                     // и
                 .authenticationProvider(this)                                              // Сервис аутентификации (проверки входа)
                 .authorizeRequests()                                                       // Авторизовать соединения ...
-                .antMatchers("/note**")                                                    // Для страниц, начинающихся с этой строки
+                .antMatchers("/main", "/create-note", "/edit-note")                          // Для страниц, начинающихся с этой строки
                 .hasRole("ACTIVE")                                                         // Для указанных ролей
                 .anyRequest()                                                              // все соединения
                 .authenticated()                                                           // Аутентифицировать
