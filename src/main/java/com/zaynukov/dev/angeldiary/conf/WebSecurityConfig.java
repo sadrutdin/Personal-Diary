@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.util.Collections;
+import java.util.Set;
 
 @Component
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements AuthenticationProvider {
@@ -30,34 +31,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(this);
+        auth.authenticationProvider(this).eraseCredentials(false);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/", "/sign-in", "/sign-up", "/css/**", "/img/**", "/js/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/sign-in")
-                .successForwardUrl("/note-list")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .and()
-                .authenticationProvider(this)
-                .authorizeRequests()
-                .antMatchers("/note**")
-                .hasRole("ACTIVE")
-                .anyRequest()
-                .authenticated();
+        http
+                .authorizeRequests()                                                       // Авторизовать соединения
+                .antMatchers("/", "/login", "/sign-in", "/sign-up", "/css/**", "/img/**", "/js/**")  // Для указанных страниц
+                .permitAll()                                                               // Доступ всем
+                .anyRequest()                                                              // Любые соединения
+                .authenticated()                                                           // Авторизовать
+                .and()                                                                         // и
+                .formLogin()                                                               // Форма входа
+                .loginPage("/sign-in")                                                     // На этом контексте
+                .usernameParameter("login")                                                // Имя параметра имени пользователя
+                .passwordParameter("password")                                             // Имя параметра пароля
+                .successForwardUrl("/note-list")                                           // При успешной авторизации переслать
+                .permitAll()                                                               // Доступ всем
+                .and()                                                                     // и
+                .logout()                                                                  // страница выхода
+                .deleteCookies("JSESSIONID")                                               // Удалить все указанные куки
+                .permitAll()                                                               // Доступ всем
+                .and()                                                                     // и
+                .authenticationProvider(this)                                              // Сервис аутентификации (проверки входа)
+                .authorizeRequests()                                                       // Авторизовать соединения ...
+                .antMatchers("/note**")                                                    // Для страниц, начинающихся с этой строки
+                .hasRole("ACTIVE")                                                         // Для указанных ролей
+                .anyRequest()                                                              // все соединения
+                .authenticated()                                                           // Аутентифицировать
+                .and()                                                                     // и
+                .csrf()                                                                    // выключить csrf (смотри в Википедию)
+                .disable();
+
+        http.httpBasic();
 
     }
 
+    private final Set<SimpleGrantedAuthority> roles = Collections.singleton(new SimpleGrantedAuthority("ACTIVE"));
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -70,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
                 return new UsernamePasswordAuthenticationToken(
                         login,
                         pass,
-                        Collections.singleton(new SimpleGrantedAuthority("ACTIVE"))
+                        roles
                 );
             }
         } catch (DiaryIsNotExistsException e) {
@@ -78,6 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         }
         return null;
     }
+
 
     @Override
     public boolean supports(Class<?> aClass) {

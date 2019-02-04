@@ -17,11 +17,7 @@ public class MyApplication {
     private static Logger logger = LoggerFactory.getLogger(MyApplication.class);
 
     public static void main(String[] args) {
-
-
-
         ApplicationContext context = SpringApplication.run(MyApplication.class, args);
-
 
         String url = "http://127.0.0.1:8080";
 

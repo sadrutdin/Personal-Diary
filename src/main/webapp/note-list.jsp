@@ -42,7 +42,7 @@
 
 
                     <div class="d-flex w-100 justify-content-between">
-                        <button class="btn btn-secondary my-3">Выйти из дневника</button>
+                        <form action="/logout"><button class="btn btn-secondary my-3">Выйти из дневника</button></form>
                         <div class="col my-1 d-flex w-100 justify-content-end">
                             <div class="d-flex h-75 w-75 justify-content-end my-3">
                                 Фильтр по дате: &nbsp;

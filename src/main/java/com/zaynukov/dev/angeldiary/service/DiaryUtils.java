@@ -15,7 +15,7 @@ public final class DiaryUtils {
     }
 
     public static boolean existDiary(String login) {
-        String path = System.getProperty("home.user") + '/' + login + ".mv.db";
+        String path = System.getProperty("user.home") + '/' + login + ".mv.db";
         return new File(path).exists();
     }
 }

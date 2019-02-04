@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--suppress ALL --%>
 <%--
   Created by IntelliJ IDEA.
@@ -32,20 +33,20 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Создать новый дневник</h5>
-                    <form action="/create-diary" method="post" class="form-signin">
+                    <form:form action="/sign-up" method="post" class="form-signin">
                         <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Логин" required
+                            <input type="text" id="login" name="login" class="form-control" placeholder="Логин" required
                                    autofocus>
-                            <label for="inputEmail">Логин</label>
+                            <label for="login">Логин</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Пароль"
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Пароль"
                                    required>
-                            <label for="inputPassword">Пароль</label>
+                            <label for="password">Пароль</label>
                         </div>
 
-                        <button id="button1" class="btn btn-lg btn-primary btn-block text-uppercase" type="button">
+                        <button id="button1" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
                             Создать
                         </button>
 
@@ -54,7 +55,7 @@
                                 class="btn btn-lg btn-primary btn-block text-uppercase" type="button">Назад
                         </button>
 
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

@@ -6,13 +6,13 @@ public final class DiaryConstants {
     }
 
     public final static String INIT_NEW_DIARY =
-            "create table notes("                                           +
-                    "  id int auto_increment unique primary key not null,"  +
-                    "  title varchar(45) not null,"                         +
-                    "  note_text varchar(32768) not null,"                  +
-                    "  create_date timestamp not null, "                    +
-                    "  change_history varchar(240)"                         +
-                    ')';
+            "create table notes(" +
+                    "  id             int auto_increment  primary key not null," +
+                    "  title          varchar(45)                           not null," +
+                    "  note_text      varchar(32768)                        not null," +
+                    "  create_date    timestamp                             not null," +
+                    "  change_history varchar(240)" +
+                    ")";
 
     public final static String TEST_AUTH_DB_QUERY = "select 1";
 
@@ -24,7 +24,8 @@ public final class DiaryConstants {
         public static final String CREATE_DATE = "create_date";
         public static final String CHANGE_HISTORY = "change_history";
 
-        private TableColumnName() {}
+        private TableColumnName() {
+        }
     }
 
 }
