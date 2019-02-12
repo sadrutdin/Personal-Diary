@@ -16,11 +16,12 @@ public final class DiaryUtils {
     private DiaryUtils() {
     }
 
-    public static Connection getConnection(String login, String pass) throws SQLException {
+    public static Connection getConnection(String login, String password) throws SQLException {
+        String url = "jdbc:h2:~/" + login;
         return DriverManager.getConnection(
-                "jdbc:h2:~/" + login,
+                url,
                 login,
-                pass
+                password
         );
     }
 

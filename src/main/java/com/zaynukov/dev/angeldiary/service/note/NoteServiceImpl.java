@@ -59,7 +59,6 @@ class NoteServiceImpl implements NoteService {
         );
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
     public List<ItemOfNoteListDTO> allNotes(Authentication user) throws SQLException {
         String login = user.getName();
@@ -67,21 +66,9 @@ class NoteServiceImpl implements NoteService {
 
         List<ItemOfNoteListDTO> list = new ArrayList<>();
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
-            try (Statement st = connection.createStatement();
-                 ResultSet rs = st.executeQuery(TableNotes.SELECT_ALL_DESC)) {
-                while (rs.next()) {
-                    int id = rs.getInt(1);
-                    String title = rs.getString(2);
-
-                    Timestamp create = rs.getTimestamp(3);
-                    Timestamp lastChange = rs.getTimestamp(4);
-
-                    list.add(new ItemOfNoteListDTO(
-                            id,
-                            title,
-                            create.toLocalDateTime(),
-                            lastChange != null ? lastChange.toLocalDateTime() : null
-                    ));
+            try (Statement st = connection.createStatement()) {
+                try (ResultSet rs = st.executeQuery(TableNotes.SELECT_ALL_DESC)) {
+                    addDTOs(list, rs);
                 }
             }
         }
@@ -90,7 +77,6 @@ class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    @SuppressWarnings("Duplicates")
     public List<ItemOfNoteListDTO> notesWithFilter(Authentication user, String dateRange, String search) throws SQLException {
         String login = user.getName();
         String password = user.getPrincipal().toString();
@@ -117,69 +103,47 @@ class NoteServiceImpl implements NoteService {
                     st.setString(3, searchSqlText);
                     st.setString(4, searchSqlText);
 
-                    try (ResultSet rs = st.executeQuery()) {
-                        while (rs.next()) {
-                            int id = rs.getInt(1);
-                            String title = rs.getString(2);
-
-                            Timestamp create = rs.getTimestamp(3);
-                            Timestamp lastChange = rs.getTimestamp(4);
-
-                            list.add(new ItemOfNoteListDTO(
-                                    id,
-                                    title,
-                                    create.toLocalDateTime(),
-                                    lastChange != null ? lastChange.toLocalDateTime() : null
-                            ));
-                        }
-                    }
+                    addDTOs(list, st);
                 }
             } else if (withSearch) {
                 searchSqlText = DiaryUtils.toSqlLikeFormat(search);
                 try (PreparedStatement st = connection.prepareStatement(TableNotes.SELECT_ALL_DESC_WITH_SEARCH)) {
                     st.setString(1, searchSqlText);
                     st.setString(2, searchSqlText);
-                    try (ResultSet rs = st.executeQuery()) {
-                        while (rs.next()) {
-                            int id = rs.getInt(1);
-                            String title = rs.getString(2);
-
-                            Timestamp create = rs.getTimestamp(3);
-                            Timestamp lastChange = rs.getTimestamp(4);
-
-                            list.add(new ItemOfNoteListDTO(
-                                    id,
-                                    title,
-                                    create.toLocalDateTime(),
-                                    lastChange != null ? lastChange.toLocalDateTime() : null
-                            ));
-                        }
-                    }
+                    addDTOs(list, st);
                 }
             } else if (withDateRange) {
                 try (PreparedStatement st = connection.prepareStatement(TableNotes.SELECT_ALL_DESC_WITH_DATE_RANGE)) {
                     st.setTimestamp(1, d1);
                     st.setTimestamp(2, d2);
-                    try (ResultSet rs = st.executeQuery()) {
-                        while (rs.next()) {
-                            int id = rs.getInt(1);
-                            String title = rs.getString(2);
-
-                            Timestamp create = rs.getTimestamp(3);
-                            Timestamp lastChange = rs.getTimestamp(4);
-
-                            list.add(new ItemOfNoteListDTO(
-                                    id,
-                                    title,
-                                    create.toLocalDateTime(),
-                                    lastChange != null ? lastChange.toLocalDateTime() : null
-                            ));
-                        }
-                    }
+                    addDTOs(list, st);
                 }
             }
         }
         return list;
+    }
+
+    private void addDTOs(List<ItemOfNoteListDTO> target, PreparedStatement st) throws SQLException {
+        try (ResultSet rs = st.executeQuery()) {
+            addDTOs(target, rs);
+        }
+    }
+
+    private void addDTOs(List<ItemOfNoteListDTO> target, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int id = rs.getInt(1);
+            String title = rs.getString(2);
+
+            Timestamp create = rs.getTimestamp(3);
+            Timestamp lastChange = rs.getTimestamp(4);
+
+            target.add(new ItemOfNoteListDTO(
+                    id,
+                    title,
+                    create.toLocalDateTime(),
+                    lastChange != null ? lastChange.toLocalDateTime() : null
+            ));
+        }
     }
 
     @Override
