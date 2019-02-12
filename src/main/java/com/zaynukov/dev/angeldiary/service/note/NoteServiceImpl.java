@@ -27,34 +27,28 @@ class NoteServiceImpl implements NoteService {
         String login = user.getName();
         String password = user.getPrincipal().toString();
 
-        Connection connection = DiaryUtils.getConnection(login, password);
-
-        String title;
-        String noteText;
+        String title, noteText;
         LocalDateTime createDateTime;
         List<LocalDateTime> changeList = new ArrayList<>();
 
-        {
-            PreparedStatement ps = connection.prepareStatement(TableNotes.SELECT_ONLY);
-            ps.setInt(1, noteId);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-
-            title = rs.getString(TableNotes.Column.TITLE.name());
-            noteText = rs.getString(TableNotes.Column.NOTE_TEXT.name());
-            createDateTime = rs.getTimestamp(TableNotes.Column.CREATE_DATE.name()).toLocalDateTime();
-            ps.close();
-        }
-        {
-            PreparedStatement ps = connection.prepareStatement(TableChanges.GET_ALL);
-            ps.setInt(1, noteId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                changeList.add(rs.getTimestamp(1).toLocalDateTime());
+        try (Connection connection = DiaryUtils.getConnection(login, password)) {
+            try (PreparedStatement ps = connection.prepareStatement(TableNotes.SELECT_ONLY)) {
+                ps.setInt(1, noteId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    rs.next();
+                    title = rs.getString(TableNotes.Column.TITLE.name());
+                    noteText = rs.getString(TableNotes.Column.NOTE_TEXT.name());
+                    createDateTime = rs.getTimestamp(TableNotes.Column.CREATE_DATE.name()).toLocalDateTime();
+                }
             }
-            ps.close();
+            try (PreparedStatement ps = connection.prepareStatement(TableChanges.GET_ALL)) {
+                ps.setInt(1, noteId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next())
+                        changeList.add(rs.getTimestamp(1).toLocalDateTime());
+                }
+            }
         }
-        connection.close();
 
         return new NoteDTO(
                 noteId,
@@ -71,26 +65,27 @@ class NoteServiceImpl implements NoteService {
         String login = user.getName();
         String password = user.getPrincipal().toString();
 
-        Connection connection = DiaryUtils.getConnection(login, password);
-        Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery(TableNotes.SELECT_ALL_DESC);
-
         List<ItemOfNoteListDTO> list = new ArrayList<>();
-        while (rs.next()) {
-            int id = rs.getInt(1);
-            String title = rs.getString(2);
+        try (Connection connection = DiaryUtils.getConnection(login, password)) {
+            try (Statement st = connection.createStatement();
+                 ResultSet rs = st.executeQuery(TableNotes.SELECT_ALL_DESC)) {
+                while (rs.next()) {
+                    int id = rs.getInt(1);
+                    String title = rs.getString(2);
 
-            Timestamp create = rs.getTimestamp(3);
-            Timestamp lastChange = rs.getTimestamp(4);
+                    Timestamp create = rs.getTimestamp(3);
+                    Timestamp lastChange = rs.getTimestamp(4);
 
-            list.add(new ItemOfNoteListDTO(
-                    id,
-                    title,
-                    create.toLocalDateTime(),
-                    lastChange != null ? lastChange.toLocalDateTime() : null
-            ));
+                    list.add(new ItemOfNoteListDTO(
+                            id,
+                            title,
+                            create.toLocalDateTime(),
+                            lastChange != null ? lastChange.toLocalDateTime() : null
+                    ));
+                }
+            }
         }
-        connection.close();
+
         return list;
     }
 
@@ -150,7 +145,6 @@ class NoteServiceImpl implements NoteService {
                 ps.setString(2, noteText);
                 ps.setTimestamp(3, getCurrentTimestamp());
                 ps.executeUpdate();
-                connection.close();
             }
         }
     }

@@ -33,13 +33,13 @@ class LoginServiceImpl implements LoginService {
         if (DiaryUtils.existDiary(login))
             throw new DiaryIsExistException("Дневник не создан.\nlogin: " + login);
 
-        Connection connection = DiaryUtils.getConnection(login, pass);
-        Statement st = connection.createStatement();
-        st.addBatch(TableNotes.INIT_TABLE);
-        st.addBatch(TableChanges.INIT_TABLE);
-        st.executeBatch();
-        connection.close();
-
+        try (Connection connection = DiaryUtils.getConnection(login, pass)) {
+            Statement st = connection.createStatement();
+            st.addBatch(TableNotes.INIT_TABLE);
+            st.addBatch(TableChanges.INIT_TABLE);
+            st.executeBatch();
+            st.close();
+        }
     }
 
     @Override
@@ -47,17 +47,20 @@ class LoginServiceImpl implements LoginService {
         if (!DiaryUtils.existDiary(login))
             throw new DiaryIsNotExistsException("Дневника не существует");
 
+        boolean res;
         try {
-            Connection connection = DiaryUtils.getConnection(login, pass);
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("select 1");
-            boolean r = rs.next();
-            connection.close();
-            return r;
+            try (Connection connection = DiaryUtils.getConnection(login, pass)) {
+                try (Statement st = connection.createStatement()) {
+                    try (ResultSet rs = st.executeQuery("select 1")) {
+                        res = rs.next();
+                    }
+                }
+            }
         } catch (SQLException e) {
             logger.error("Ошибка при работе с БД.", e);
-            return false;
+            res = false;
         }
+        return res;
     }
 
 }
