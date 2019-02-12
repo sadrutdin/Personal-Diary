@@ -95,34 +95,86 @@ class NoteServiceImpl implements NoteService {
         String login = user.getName();
         String password = user.getPrincipal().toString();
 
-        TimestampPair timestampPair;
-        try {
-            timestampPair = DiaryUtils.parseDateRange(dateRange);
-        } catch (DiaryParamIsBadFormat e) {
-            return allNotes(user);
-        }
+        TimestampPair timestampPair = DiaryUtils.parseDateRange(dateRange);
+        Timestamp d1, d2;
+        d1 = timestampPair.getBegin();
+        d2 = timestampPair.getEnd();
 
-        Timestamp d1 = timestampPair.getBegin(), d2 = timestampPair.getEnd();
+
+        boolean withSearch = search != null && !search.isEmpty();
+        boolean withDateRange = d1 != null && d2 != null;
+        boolean withSearchAndDateRange = withSearch && withDateRange;
+
+        String searchSqlText;
 
         List<ItemOfNoteListDTO> list = new ArrayList<>();
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
-            try (PreparedStatement st = connection.prepareStatement(TableNotes.SELECT_ALL_DESC_WITH_FILTER)) {
-                st.setTimestamp(1, d1);
-                st.setTimestamp(2, d2);
-                try (ResultSet rs = st.executeQuery()) {
-                    while (rs.next()) {
-                        int id = rs.getInt(1);
-                        String title = rs.getString(2);
+            if (withSearchAndDateRange) {
+                searchSqlText = DiaryUtils.toSqlLikeFormat(search);
+                try (PreparedStatement st = connection.prepareStatement(TableNotes.SELECT_ALL_DESC_WITH_SEARCH_DATE_RANGE)) {
+                    st.setTimestamp(1, d1);
+                    st.setTimestamp(2, d2);
+                    st.setString(3, searchSqlText);
+                    st.setString(4, searchSqlText);
 
-                        Timestamp create = rs.getTimestamp(3);
-                        Timestamp lastChange = rs.getTimestamp(4);
+                    try (ResultSet rs = st.executeQuery()) {
+                        while (rs.next()) {
+                            int id = rs.getInt(1);
+                            String title = rs.getString(2);
 
-                        list.add(new ItemOfNoteListDTO(
-                                id,
-                                title,
-                                create.toLocalDateTime(),
-                                lastChange != null ? lastChange.toLocalDateTime() : null
-                        ));
+                            Timestamp create = rs.getTimestamp(3);
+                            Timestamp lastChange = rs.getTimestamp(4);
+
+                            list.add(new ItemOfNoteListDTO(
+                                    id,
+                                    title,
+                                    create.toLocalDateTime(),
+                                    lastChange != null ? lastChange.toLocalDateTime() : null
+                            ));
+                        }
+                    }
+                }
+            } else if (withSearch) {
+                searchSqlText = DiaryUtils.toSqlLikeFormat(search);
+                try (PreparedStatement st = connection.prepareStatement(TableNotes.SELECT_ALL_DESC_WITH_SEARCH)) {
+                    st.setString(1, searchSqlText);
+                    st.setString(2, searchSqlText);
+                    try (ResultSet rs = st.executeQuery()) {
+                        while (rs.next()) {
+                            int id = rs.getInt(1);
+                            String title = rs.getString(2);
+
+                            Timestamp create = rs.getTimestamp(3);
+                            Timestamp lastChange = rs.getTimestamp(4);
+
+                            list.add(new ItemOfNoteListDTO(
+                                    id,
+                                    title,
+                                    create.toLocalDateTime(),
+                                    lastChange != null ? lastChange.toLocalDateTime() : null
+                            ));
+                        }
+                    }
+                }
+            } else if (withDateRange) {
+                try (PreparedStatement st = connection.prepareStatement(TableNotes.SELECT_ALL_DESC_WITH_DATE_RANGE)) {
+                    st.setTimestamp(1, d1);
+                    st.setTimestamp(2, d2);
+                    try (ResultSet rs = st.executeQuery()) {
+                        while (rs.next()) {
+                            int id = rs.getInt(1);
+                            String title = rs.getString(2);
+
+                            Timestamp create = rs.getTimestamp(3);
+                            Timestamp lastChange = rs.getTimestamp(4);
+
+                            list.add(new ItemOfNoteListDTO(
+                                    id,
+                                    title,
+                                    create.toLocalDateTime(),
+                                    lastChange != null ? lastChange.toLocalDateTime() : null
+                            ));
+                        }
                     }
                 }
             }

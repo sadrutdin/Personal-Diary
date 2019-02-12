@@ -32,7 +32,11 @@ public final class TableNotes {
     public static final String SELECT_ALL_DESC = "select n.ID,n.TITLE,n.CREATE_DATE,(select DATE from CHANGES as c where c.NOTE_ID=n.ID order by c.id desc limit 1) from NOTES as n where n.ACTIVE is true order by n.CREATE_DATE desc";
 
     @Language("H2")
-    public static final String SELECT_ALL_DESC_WITH_FILTER = "select n.ID,n.TITLE,n.CREATE_DATE,(select DATE from CHANGES as c where c.NOTE_ID=n.ID order by c.id desc limit 1) from NOTES as n where n.ACTIVE is true and (CREATE_DATE between ? and ?) order by n.CREATE_DATE desc";
+    public static final String SELECT_ALL_DESC_WITH_SEARCH = "select n.ID,n.TITLE,n.CREATE_DATE,(select DATE from CHANGES as c where c.NOTE_ID=n.ID order by c.id desc limit 1) from NOTES as n where n.ACTIVE is true and (lower(TITLE) like ? or lower(NOTE_TEXT) like ?) order by n.CREATE_DATE desc";
+    @Language("H2")
+    public static final String SELECT_ALL_DESC_WITH_DATE_RANGE = "select n.ID,n.TITLE,n.CREATE_DATE,(select DATE from CHANGES as c where c.NOTE_ID=n.ID order by c.id desc limit 1) from NOTES as n where n.ACTIVE is true and (CREATE_DATE between ? and ?) order by n.CREATE_DATE desc";
+    @Language("H2")
+    public static final String SELECT_ALL_DESC_WITH_SEARCH_DATE_RANGE = "select n.ID,n.TITLE,n.CREATE_DATE,(select DATE from CHANGES as c where c.NOTE_ID=n.ID order by c.id desc limit 1) from NOTES as n where n.ACTIVE is true and (CREATE_DATE between ? and ?) and (lower(TITLE) like ? or lower(NOTE_TEXT) like ?) order by n.CREATE_DATE desc";
 
     @Language("H2")
     public static final String INSERT = "insert into NOTES (TITLE,NOTE_TEXT,CREATE_DATE,ACTIVE) values (?,?,?,TRUE)";

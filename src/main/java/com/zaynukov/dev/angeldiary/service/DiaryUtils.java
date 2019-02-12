@@ -1,6 +1,5 @@
 package com.zaynukov.dev.angeldiary.service;
 
-import com.zaynukov.dev.angeldiary.exception.DiaryParamIsBadFormat;
 import com.zaynukov.dev.angeldiary.model.TimestampPair;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +37,7 @@ public final class DiaryUtils {
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:SS");
 
-    public static TimestampPair parseDateRange(String dateRange) throws DiaryParamIsBadFormat {
+    public static TimestampPair parseDateRange(String dateRange) {
         try {
             String[] split = dateRange.split(" - ");
             String s1 = split[0];
@@ -52,7 +51,7 @@ public final class DiaryUtils {
                     Timestamp.valueOf(ldt2.atTime(0, 0))
             );
         } catch (Exception e) {
-            throw new DiaryParamIsBadFormat("dateRange = " + dateRange, e);
+            return new TimestampPair(null, null);
         }
     }
 
@@ -66,5 +65,9 @@ public final class DiaryUtils {
 
     public static String formatDateTime(LocalDateTime dateTime) {
         return dateTime.format(dateTimeFormatter);
+    }
+
+    public static String toSqlLikeFormat(String search) {
+        return search.toLowerCase().replaceAll("\\s+", "%");
     }
 }

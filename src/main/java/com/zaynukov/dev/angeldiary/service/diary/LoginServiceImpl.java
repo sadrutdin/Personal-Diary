@@ -31,14 +31,14 @@ class LoginServiceImpl implements LoginService {
     @Override
     public void createDiary(String login, String pass) throws DiaryIsExistException, SQLException {
         if (DiaryUtils.existDiary(login))
-            throw new DiaryIsExistException("Дневник не создан.\nlogin: " + login);
+            throw new DiaryIsExistException("Дневник не создан.\nlogin = " + login);
 
         try (Connection connection = DiaryUtils.getConnection(login, pass)) {
-            Statement st = connection.createStatement();
-            st.addBatch(TableNotes.INIT_TABLE);
-            st.addBatch(TableChanges.INIT_TABLE);
-            st.executeBatch();
-            st.close();
+            try (Statement st = connection.createStatement()) {
+                st.addBatch(TableNotes.INIT_TABLE);
+                st.addBatch(TableChanges.INIT_TABLE);
+                st.executeBatch();
+            }
         }
     }
 
