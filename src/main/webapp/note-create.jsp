@@ -27,7 +27,6 @@
 
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/moment.min.js"></script>
-    <script type="text/javascript" src="js/daterangepicker.min.js"></script>
 
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
