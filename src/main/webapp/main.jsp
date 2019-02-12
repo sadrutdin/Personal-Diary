@@ -1,3 +1,5 @@
+<%--suppress JspAbsolutePathInspection --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: zaynu
@@ -42,63 +44,75 @@
                     <div class="d-flex justify-content-between my-2">
 
                         <form method="get" action="/logout">
-                        <button class="btn btn-secondary" type="submit">Выйти из дневника</button>
+                            <button class="btn btn-secondary" type="submit">Выйти из дневника</button>
                         </form>
 
+
                         <div class="d-flex col" style="margin-left:2px">
-                            <input type="text" placeholder="Поиск по записям" style="margin-right:6px"
-                                   class="w-100 form-control my-auto">
+                            <input id="searchInput" name="search" type="text" placeholder="Поиск по записям"
+                                   style="margin-right:6px"
+                                   class=" w-100 form-control my-auto">
 
                             <input type="text" id="daterange" name="daterange"
                                    class="w-50 my-auto form-control text-center" value="01/01/2018 - 15/03/2018">
-                            <button style="margin-left:6px" class="btn btn-primary my-auto">Найти</button>
+                            <button style="margin-left:6px" onclick="searchNote();"
+                                    class="btn btn-primary my-auto">Найти
+                            </button>
                         </div>
 
 
                         <form method="get" action="/create-note">
-                        <button onclick="location.href='/create-note'" class="btn btn-primary">Добавить запись</button>
+                            <button onclick="location.href='/create-note'" class="btn btn-primary">Добавить запись
+                            </button>
                         </form>
 
 
+                        <div class="d-flex my-1"></div>
+
+                    </div>
 
 
-                    <div class="d-flex my-1"></div>
+                    <%--<jsp:useBean id="items" scope="page" type="java.util.List"/>--%>
+                    <c:forEach var="it" items="${items}">
+                        <%--<jsp:useBean id="it" type="com.zaynukov.dev.angeldiary.model.ItemOfNoteListDTO"/>--%>
 
+                        <a href="/view?id=${it.id}" class="list-group-item list-group-item-action  align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">${it.title}&nbsp;&nbsp;</h5>
+                                <small>${it.createDateTimeAsStr()}</small>
+                            </div>
+                            <c:set var="lastChange" value="${it.lastChangeDateTimeAsStr()}"/>
+                            <small class="text-muted"><c:if
+                                    test="${lastChange ne null && !lastChange.equals('')}">Посл. редакт.: <c:out
+                                    value="${lastChange}"/></c:if>
+                            </small>
 
+                        </a>
+
+                    </c:forEach>
+
+                    <%--<a href="#" class="list-group-item list-group-item-action  align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Заголовок второй записи дневника&nbsp;&nbsp;&nbsp;</h5>
+                            <small class="text-muted">31/01/2019</small>
+                        </div>
+
+                        <small class="text-muted">&nbsp;</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action  align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Заголовок первой записи дневника&nbsp;&nbsp;&nbsp;</h5>
+                            <small class="text-muted">20/01/2019</small>
+                        </div>
+
+                        <small class="text-muted">ред.: 22/01/2019 22:02; 25/01/2019 23:48; 30/01/2019 19:07</small>
+                    </a>--%>
                 </div>
-
-
-                <a href="#" class="list-group-item list-group-item-action  align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Заголовок третьей записи дневника&nbsp;&nbsp;&nbsp;</h5>
-                        <small>01/02/2019</small>
-                    </div>
-
-                    <small class="text-muted">ред.: 02/02/2019 15:30</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action  align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Заголовок второй записи дневника&nbsp;&nbsp;&nbsp;</h5>
-                        <small class="text-muted">31/01/2019</small>
-                    </div>
-
-                    <small class="text-muted">&nbsp;</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action  align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Заголовок первой записи дневника&nbsp;&nbsp;&nbsp;</h5>
-                        <small class="text-muted">20/01/2019</small>
-                    </div>
-
-                    <small class="text-muted">ред.: 22/01/2019 22:02; 25/01/2019 23:48; 30/01/2019 19:07</small>
-                </a>
-            </div>
             </div>
 
 
         </div>
     </div>
-</div>
 </div>
 
 <script>
@@ -158,6 +172,13 @@
 
 
     });
+
+
+    function searchNote() {
+        var search = document.getElementById('searchInput').value;
+        var dateRange = document.getElementById('daterange').value;
+        location.href = location.href + '?search=' + encodeURI(search) + '&daterange=' + encodeURI(dateRange);
+    }
 
 </script>
 

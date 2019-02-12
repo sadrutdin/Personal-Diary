@@ -2,6 +2,8 @@ package com.zaynukov.dev.angeldiary.service.diary;
 
 import com.zaynukov.dev.angeldiary.exception.DiaryIsExistException;
 import com.zaynukov.dev.angeldiary.exception.DiaryIsNotExistsException;
+import com.zaynukov.dev.angeldiary.model.sql.TableChanges;
+import com.zaynukov.dev.angeldiary.model.sql.TableNotes;
 import com.zaynukov.dev.angeldiary.service.DiaryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static com.zaynukov.dev.angeldiary.service.DiaryConstants.INIT_NEW_DIARY;
-import static com.zaynukov.dev.angeldiary.service.DiaryConstants.TEST_AUTH_DB_QUERY;
-
 @Service
 class LoginServiceImpl implements LoginService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public LoginServiceImpl() {
         try {
@@ -36,7 +35,9 @@ class LoginServiceImpl implements LoginService {
 
         Connection connection = DiaryUtils.getConnection(login, pass);
         Statement st = connection.createStatement();
-        st.execute(INIT_NEW_DIARY);
+        st.addBatch(TableNotes.INIT_TABLE);
+        st.addBatch(TableChanges.INIT_TABLE);
+        st.executeBatch();
         connection.close();
 
     }
@@ -49,11 +50,11 @@ class LoginServiceImpl implements LoginService {
         try {
             Connection connection = DiaryUtils.getConnection(login, pass);
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(TEST_AUTH_DB_QUERY);
+            ResultSet rs = st.executeQuery("select 1");
             boolean r = rs.next();
             connection.close();
             return r;
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             logger.error("Ошибка при работе с БД.", e);
             return false;
         }

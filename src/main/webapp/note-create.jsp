@@ -43,7 +43,7 @@
 
                 <div class="card-body">
 
-                    <form:form method="post" action="/set-diary">
+                    <form:form method="post" action="/create-note">
 
                         <div class="d-flex justify-content-between my-3">
 
@@ -70,7 +70,7 @@
 
 
                             <p class="d-flex">
-              <textarea style="height: 450px" required class="d-flex form-control textarea-control" rows="3"
+              <textarea name="text" style="height: 450px" required class="d-flex form-control textarea-control" rows="3"
                         placeholder="Введите текст дневника.
 Чтобы вставить emoji нажмите Win + точка"></textarea>
                             </p>

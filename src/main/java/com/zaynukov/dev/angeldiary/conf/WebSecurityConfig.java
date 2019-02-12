@@ -37,31 +37,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()                                                       // Авторизовать соединения
-                .antMatchers("/", "/login", "/create-diary", "/css/**", "/img/**", "/js/**")                // Для указанных страниц
-                .permitAll()                                                               // Доступ всем
-                .anyRequest()                                                              // Любые соединения
-                .authenticated()                                                           // Авторизовать
-                .and()                                                                     // и
-                .formLogin()                                                               // Форма входа
-                .loginPage("/login")                                                       // На этом контексте
-                .usernameParameter("login")                                                // Имя параметра имени пользователя
-                .passwordParameter("password")                                             // Имя параметра пароля
-                .successForwardUrl("/main")                                                // При успешной авторизации переслать
-                .permitAll()                                                               // Доступ всем
-                .and()                                                                     // и
-                .logout()                                                                  // страница выхода
-                .deleteCookies("JSESSIONID")                                               // Удалить все указанные куки
-                .permitAll()                                                               // Доступ всем
-                .and()                                                                     // и
-                .authenticationProvider(this)                                              // Сервис аутентификации (проверки входа)
-                .authorizeRequests()                                                       // Авторизовать соединения ...
-                .antMatchers("/main", "/create-note", "/edit-note")                          // Для страниц, начинающихся с этой строки
-                .hasRole("ACTIVE")                                                         // Для указанных ролей
-                .anyRequest()                                                              // все соединения
-                .authenticated()                                                           // Аутентифицировать
-                .and()                                                                     // и
-                .csrf()                                                                    // выключить csrf (смотри в Википедию)
+                .authorizeRequests()
+                .antMatchers("/", "/login", "/create-diary", "/css/**", "/img/**", "/js/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("login")
+                .passwordParameter("password")
+                .successForwardUrl("/main")
+                .permitAll()
+                .and()
+                .logout()
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
+                .authenticationProvider(this)
+                .authorizeRequests()
+                .antMatchers("/main", "/create-note", "/edit-note")
+                .hasRole("ACTIVE")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf()
                 .disable();
 
         http.httpBasic();
@@ -92,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return aClass.equals(UsernamePasswordAuthenticationToken.class);
+    public boolean supports(Class<?> clazz) {
+        return clazz.equals(UsernamePasswordAuthenticationToken.class);
     }
 }
