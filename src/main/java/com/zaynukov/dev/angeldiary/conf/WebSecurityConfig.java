@@ -4,6 +4,7 @@ import com.zaynukov.dev.angeldiary.exception.DiaryIsNotExistsException;
 import com.zaynukov.dev.angeldiary.service.diary.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,13 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.Set;
 
-@Component
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements AuthenticationProvider {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(this).eraseCredentials(false);
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -56,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
                 .and()
                 .authenticationProvider(this)
                 .authorizeRequests()
-                .antMatchers("/main", "/create-note", "/edit-note")
+                .antMatchers("/main", "/delete-note", "/view", "/create-note", "/edit-note")
                 .hasRole("ACTIVE")
                 .anyRequest()
                 .authenticated()
@@ -77,7 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         String pass = authentication.getCredentials().toString();
         try {
             if (loginService.match(login, pass)) {
-                logger.info("Корррааамммбаааааа");
                 return new UsernamePasswordAuthenticationToken(
                         login,
                         pass,

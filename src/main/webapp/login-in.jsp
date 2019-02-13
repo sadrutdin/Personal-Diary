@@ -19,6 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="img/fav.png">
+
     <title>Войти в дневник</title>
 
     <link rel="stylesheet" href="css/diary.css">
@@ -55,14 +56,14 @@
                             Object obj = request.getAttribute("e");
                             if (obj instanceof DiaryIsExistException) {
                         %>
-                            <p class="text-center text-danger">Такой дневник уже существует</p>
+                        <p class="text-center text-danger">Такой дневник уже существует</p>
                         <%
-                            } else
-                                if (obj instanceof SQLException) {
+                        } else if (obj instanceof SQLException) {
                         %>
-                            <p class="text-center text-danger">Ошибка при работе с базой данных. Обратитесь администратору.</p>
-                        <%  } else if (request.getParameter("error")!=null){%>
-                            <p class="text-center text-danger">Неправильный логин/пароль</p>
+                        <p class="text-center text-danger">Ошибка при работе с базой данных. Обратитесь
+                            администратору.</p>
+                        <% } else if (request.getParameter("error") != null) {%>
+                        <p class="text-center text-danger">Неправильный логин/пароль</p>
 
                         <%}%>
 
@@ -72,7 +73,8 @@
                         <hr class="my-4">
 
                         <button onclick="location.href='/create-diary'" id="button2"
-                                class="btn btn-lg btn-primary btn-block text-uppercase" type="button">Создать дневник
+                                class="btn btn-lg btn-primary btn-block text-uppercase" type="button">
+                            Создать дневник
                         </button>
 
                     </form:form>
