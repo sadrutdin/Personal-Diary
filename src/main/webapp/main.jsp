@@ -1,4 +1,6 @@
 <%--suppress JspAbsolutePathInspection --%>
+<%--suppress HtmlFormInputWithoutLabel --%>
+<%--suppress JspAbsolutePathInspection --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -51,13 +53,15 @@
 
                         <div class="d-flex col" style="margin-left:2px">
                             <input id="searchInput" name="search" type="text" placeholder="Поиск по записям"
-                                   style="margin-right:6px"
-                                   class=" w-100 form-control my-auto">
+                                   style="margin-right:6px" onkeydown="return ifPressEnterKey(event)"
+                                   class="w-100 form-control my-auto">
 
-                            <input type="text" id="daterange" name="daterange"
+                            <input type="text" id="daterange" name="daterange" onkeydown="return ifPressEnterKey(event)"
                                    class="w-50 my-auto form-control text-center" value="01/01/2018 - 15/03/2018">
+
                             <button style="margin-left:6px" onclick="searchNote();"
-                                    class="btn btn-primary my-auto">Найти
+                                    class="btn btn-primary my-auto">
+                                Найти
                             </button>
                         </div>
 
@@ -113,6 +117,14 @@
         var search = document.getElementById('searchInput').value;
         var dateRange = document.getElementById('daterange').value;
         location.href = location.href + '?search=' + encodeURI(search) + '&daterange=' + encodeURI(dateRange);
+    }
+
+    function ifPressEnterKey(e) {
+        if (e.key === "Enter") {
+            searchNote();
+            return false;
+        }
+        return true;
     }
 
     $(function () {

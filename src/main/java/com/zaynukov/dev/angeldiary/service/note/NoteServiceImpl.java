@@ -81,6 +81,8 @@ class NoteServiceImpl implements NoteService {
         String login = user.getName();
         String password = user.getPrincipal().toString();
 
+        if (dateRange == null && search == null) return allNotes(user);
+
         TimestampPair timestampPair = DiaryUtils.parseDateRange(dateRange);
         Timestamp d1, d2;
         d1 = timestampPair.getBegin();
@@ -194,7 +196,7 @@ class NoteServiceImpl implements NoteService {
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
             try (PreparedStatement ps = connection.prepareStatement(TableNotes.DELETE)) {
                 ps.setInt(1, noteId);
-                ps.executeQuery();
+                ps.executeUpdate();
             }
         }
     }

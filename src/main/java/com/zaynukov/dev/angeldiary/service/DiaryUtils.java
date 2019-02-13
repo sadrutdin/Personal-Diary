@@ -69,6 +69,6 @@ public final class DiaryUtils {
     }
 
     public static String toSqlLikeFormat(String search) {
-        return search.toLowerCase().replaceAll("\\s+", "%");
+        return "%" + search.trim().toLowerCase().replaceAll("\\s+", "%") + "%";
     }
 }

@@ -19,6 +19,7 @@
     <link rel="shortcut icon" href="img/fav.png">
     <title><c:out value="${dto.title}"/></title>
 
+
     <link rel="stylesheet" href="css/diary.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
@@ -58,9 +59,9 @@
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal">Нет</button>
 
-                    <form:form action="/delete-note" method="get">
-                        <input class="d-none" value="${dto.id}">
-                        <button type="submit" class="ml-2 btn btn-danger" data-dismiss="modal">Удалить</button>
+                    <form:form action="/delete-note" method="post">
+                        <input name="id" class="d-none" value="${dto.id}">
+                        <button type="submit" class="ml-2 btn btn-danger" <%--data-dismiss="modal"--%>>Удалить</button>
                     </form:form>
 
                 </div>
@@ -89,45 +90,30 @@
 
                             <div class="col-7">
                                 <p class="lead my-auto">
-                                    <input name="title" required type="text" class="text-center border-0 bg-white form-control my-auto"
+                                    <input name="title" required type="text"
+                                           class="text-center border-0 bg-white form-control my-auto"
                                            value='<c:out value="${dto.title}"/>' id="title1" maxlength="45" autofocus
                                            placeholder="Заголовок" disabled>
                                 </p>
                             </div>
 
-                           <%-- <div>
-                                <div class="col">
-                                    <div class="row">
-                                        <button id="editButton" type="button" class="btn btn-primary my-auto" onclick="toEditableContent();">
-                                            Редактировать
-                                        </button>
-                                    </div>
-                                    <div class="row">
-                                        <button id="saveButton" type="submit" class="btn btn-primary my-auto d-none">
-                                            Сохранить
-                                        </button>
-                                    </div>
 
-                                    <div class="row mt-1">
-                                        <button type="button" class="btn btn-danger my-auto" style="margin-top:20px;">Удалить запись</button>
-                                    </div>
-                                </div>
-                            </div>
-
---%>
                             <div>
                                 <div class="col">
                                     <div class="row">
-                                        <button type="button" class="btn btn-danger my-auto" style="margin-top:20px;">
+                                        <button data-toggle="modal" data-target="#myModal" type="button"
+                                                class="btn btn-danger my-auto" style="margin-top:20px;">
                                             Удалить запись
                                         </button>
-                                        <button id="editButton" type="button" class="btn ml-1 btn-primary my-auto" onclick="toEditableContent();">
-                                         Изменить
-                                    </button>
-                                        <button id="saveButton" type="submit" class="btn ml-1 btn-primary my-auto d-none">
+                                        <button id="editButton" type="button" class="btn ml-1 btn-primary my-auto"
+                                                onclick="toEditableContent();">
+                                            Изменить
+                                        </button>
+                                        <button id="saveButton" type="submit"
+                                                class="btn ml-1 btn-primary my-auto d-none">
                                             Сохранить
-                                        </button></div>
-
+                                        </button>
+                                    </div>
 
 
                                 </div>
@@ -183,20 +169,30 @@
     }
 
 
+    function autosize() {
+        var k = this;
+
+        setTimeout(function () {
+            k.style.cssText = 'height:auto; padding:0';
+            k.style.cssText = 'height:' + (k.scrollHeight < 450 ? 450 : k.scrollHeight + 48) + 'px';
+        }, 0);
+    }
+
     $(function () {
         var textarea = document.querySelector('textarea');
 
         textarea.addEventListener('keydown', autosize);
 
-        function autosize() {
-            var k = this;
-
-            setTimeout(function () {
-                k.style.cssText = 'height:auto; padding:0';
-                k.style.cssText = 'height:' + (k.scrollHeight < 450 ? 450 : k.scrollHeight + 48) + 'px';
-            }, 0);
-        }
     });
+
+    {
+        var elt = document.getElementById("text1");
+        elt.onkeydown = autosize;
+        elt.onkeydown();
+        elt.onkeydown = null;
+    }
+
+
 
 </script>
 
