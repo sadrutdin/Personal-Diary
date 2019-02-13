@@ -44,9 +44,11 @@ public class PageController {
         try {
             mv.addObject(items, noteService.notesWithFilter(user, dateRange, search));
         } catch (SQLException e) {
-            logger.error("Ошибка при работе с БД", e);
+            String errorMsg = "Ошибка при работе с БД";
+            logger.error(errorMsg, e);
+            mv.addObject("errorMsg", errorMsg);
+
             mv.addObject(items, Collections.emptyList());
-            mv.addObject(e);
         }
 
         return mv;

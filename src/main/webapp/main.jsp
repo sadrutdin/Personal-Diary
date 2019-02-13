@@ -21,7 +21,8 @@
 
     <link rel="stylesheet" href="css/diary.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <%--<link rel="stylesheet" href="css/font-awesome.min.css">--%>
 
 
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
@@ -67,7 +68,14 @@
                         </form>
 
 
-                        <div class="d-flex my-1"></div>
+                    </div>
+
+
+                    <div class="my-1 justify-content-between">
+
+                        <c:if test="${errorMsg ne null}">
+                            <p class="text-danger text-center"><c:out value="errorMsg"/></p>
+                        </c:if>
 
                     </div>
 
@@ -91,22 +99,7 @@
 
                     </c:forEach>
 
-                    <%--<a href="#" class="list-group-item list-group-item-action  align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Заголовок второй записи дневника&nbsp;&nbsp;&nbsp;</h5>
-                            <small class="text-muted">31/01/2019</small>
-                        </div>
 
-                        <small class="text-muted">&nbsp;</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action  align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Заголовок первой записи дневника&nbsp;&nbsp;&nbsp;</h5>
-                            <small class="text-muted">20/01/2019</small>
-                        </div>
-
-                        <small class="text-muted">ред.: 22/01/2019 22:02; 25/01/2019 23:48; 30/01/2019 19:07</small>
-                    </a>--%>
                 </div>
             </div>
 
@@ -116,16 +109,20 @@
 </div>
 
 <script>
+    function searchNote() {
+        var search = document.getElementById('searchInput').value;
+        var dateRange = document.getElementById('daterange').value;
+        location.href = location.href + '?search=' + encodeURI(search) + '&daterange=' + encodeURI(dateRange);
+    }
+
     $(function () {
 
         var now = new Date();
         var afterMonth = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-        var dp =
+        document.getElementById("daterange").value =
             now.getDate() + "/" + now.getMonth() + "/" + now.getFullYear()
             + " - "
             + afterMonth.getDate() + "/" + afterMonth.getMonth() + "/" + afterMonth.getFullYear();
-
-        document.getElementById("daterange").value = dp;
 
 
         $('input[name="daterange"]').daterangepicker({
@@ -173,12 +170,6 @@
 
     });
 
-
-    function searchNote() {
-        var search = document.getElementById('searchInput').value;
-        var dateRange = document.getElementById('daterange').value;
-        location.href = location.href + '?search=' + encodeURI(search) + '&daterange=' + encodeURI(dateRange);
-    }
 
 </script>
 

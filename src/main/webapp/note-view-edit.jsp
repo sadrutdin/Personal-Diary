@@ -17,24 +17,59 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="img/fav.png">
-    <title>Список записей</title>
+    <title><c:out value="${dto.title}"/></title>
 
     <link rel="stylesheet" href="css/diary.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
-    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css"/>
 
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="js/moment.min.js"></script>
-
-
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 
 </head>
 
 <body>
 <div class="container">
+
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class='col-1'>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class='col'>
+
+                        <h4 class="modal-title">Подтверждение</h4>
+                    </div>
+
+
+                </div>
+                <div class="modal-body">
+                    <p>Вы действительно хотите удалить эту запись?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Нет</button>
+
+                    <form:form action="/delete-note" method="get">
+                        <input class="d-none" value="${dto.id}">
+                        <button type="submit" class="ml-2 btn btn-danger" data-dismiss="modal">Удалить</button>
+                    </form:form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="mx-auto col-9">
             <div class="card card-signin my-5">

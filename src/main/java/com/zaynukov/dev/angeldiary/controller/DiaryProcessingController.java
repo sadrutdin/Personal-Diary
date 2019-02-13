@@ -94,4 +94,21 @@ public class DiaryProcessingController {
         return new ModelAndView("redirect:/main");
     }
 
+
+    @PostMapping
+    public ModelAndView deleteNote(Authentication user,
+                                   @RequestParam int id) {
+        ModelAndView mv = new ModelAndView("main");
+        try {
+            noteService.deleteNote(user, id);
+            mv.addObject("msg", "Запись успешно удалена");
+        } catch (SQLException e) {
+            String errorMsg = "Ошибка при работе с базой данных - запись дневника не удалён";
+            logger.error(errorMsg, e);
+            mv.addObject("errorMsg", errorMsg);
+        }
+        return mv;
+    }
+
+
 }

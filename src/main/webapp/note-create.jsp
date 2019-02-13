@@ -16,19 +16,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="img/fav.png">
-    <title>Список записей</title>
+    <title>Новая запись</title>
 
 
     <link rel="stylesheet" href="css/diary.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
 
-    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css"/>
+    <%--<link rel="stylesheet" type="text/css" href="css/daterangepicker.css"/>--%>
 
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/moment.min.js"></script>
 
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <%--<link rel="stylesheet" href="css/font-awesome.min.css">--%>
 
 
 </head>
