@@ -95,7 +95,7 @@ public class DiaryProcessingController {
     }
 
 
-    @PostMapping
+    @PostMapping("/delete-note")
     public ModelAndView deleteNote(Authentication user,
                                    @RequestParam int id) {
         ModelAndView mv = new ModelAndView("main");

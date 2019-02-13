@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/create-diary", "/css/**", "/img/**", "/js/**")
+                .antMatchers("/", "/login", "/create-diary", "/css/**", "/img/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -85,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
                 );
             }
         } catch (DiaryIsNotExistsException e) {
-            logger.error("Дневника не существует:", e);
+            logger.error("Дневника не существует", e);
         }
         return null;
     }
