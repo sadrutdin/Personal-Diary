@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
@@ -96,18 +97,18 @@ public class DiaryProcessingController {
 
 
     @PostMapping("/delete-note")
-    public ModelAndView deleteNote(Authentication user,
-                                   @RequestParam int id) {
-        ModelAndView mv = new ModelAndView("main");
+    public String deleteNote(Authentication user,
+                             RedirectAttributes redirectAttributes,
+                             @RequestParam int id) {
         try {
             noteService.deleteNote(user, id);
-            mv.addObject("msg", "Запись успешно удалена");
+            redirectAttributes.addFlashAttribute("msg", "Запись успешно удалена");
         } catch (SQLException e) {
             String errorMsg = "Ошибка при работе с базой данных - запись дневника не удалён";
             logger.error(errorMsg, e);
-            mv.addObject("errorMsg", errorMsg);
+            redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
         }
-        return mv;
+        return "redirect:/main";
     }
 
 

@@ -78,11 +78,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         String pass = authentication.getCredentials().toString();
         try {
             if (loginService.match(login, pass)) {
-                return new UsernamePasswordAuthenticationToken(
-                        login,
-                        pass,
-                        roles
-                );
+//                return new UsernamePasswordAuthenticationToken(
+//                        login,
+//                        pass,
+//                        roles
+//                );
+                return authentication;
             }
         } catch (DiaryIsNotExistsException e) {
             logger.error("Дневника не существует", e);

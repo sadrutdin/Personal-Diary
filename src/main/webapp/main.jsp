@@ -78,7 +78,11 @@
                     <div class="my-1 justify-content-between">
 
                         <c:if test="${errorMsg ne null}">
-                            <p class="text-danger text-center"><c:out value="errorMsg"/></p>
+                            <p class="text-danger text-center"><c:out value="${errorMsg}"/></p>
+                        </c:if>
+
+                        <c:if test="${msg ne null}">
+                            <p class="text-success text-center"><c:out value="${msg}"/></p>
                         </c:if>
 
                     </div>
@@ -116,7 +120,9 @@
     function searchNote() {
         var search = document.getElementById('searchInput').value;
         var dateRange = document.getElementById('daterange').value;
-        location.href = location.href + '?search=' + encodeURI(search) + '&daterange=' + encodeURI(dateRange);
+        var hr = location.href;
+        hr = hr.substring(0, hr.indexOf('?'));
+        location.href = hr + '?search=' + encodeURI(search) + '&daterange=' + encodeURI(dateRange);
     }
 
     function ifPressEnterKey(e) {

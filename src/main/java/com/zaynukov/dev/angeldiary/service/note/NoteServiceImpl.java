@@ -25,7 +25,7 @@ class NoteServiceImpl implements NoteService {
     @Override
     public NoteDTO getNote(Authentication user, int noteId) throws SQLException {
         String login = user.getName();
-        String password = user.getPrincipal().toString();
+        String password = user.getCredentials().toString();
 
         String title, noteText;
         LocalDateTime createDateTime;
@@ -62,7 +62,7 @@ class NoteServiceImpl implements NoteService {
     @Override
     public List<ItemOfNoteListDTO> allNotes(Authentication user) throws SQLException {
         String login = user.getName();
-        String password = user.getPrincipal().toString();
+        String password = user.getCredentials().toString();
 
         List<ItemOfNoteListDTO> list = new ArrayList<>();
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
@@ -78,10 +78,11 @@ class NoteServiceImpl implements NoteService {
 
     @Override
     public List<ItemOfNoteListDTO> notesWithFilter(Authentication user, String dateRange, String search) throws SQLException {
-        String login = user.getName();
-        String password = user.getPrincipal().toString();
 
         if (dateRange == null && search == null) return allNotes(user);
+
+        String login = user.getName();
+        String password = user.getCredentials().toString();
 
         TimestampPair timestampPair = DiaryUtils.parseDateRange(dateRange);
         Timestamp d1, d2;
@@ -155,7 +156,7 @@ class NoteServiceImpl implements NoteService {
                     "title = '" + title + "'; noteText = '" + noteText + "'.");
 
         String login = user.getName();
-        String password = user.getPrincipal().toString();
+        String password = user.getCredentials().toString();
 
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
             try (PreparedStatement ps = connection.prepareStatement(TableNotes.INSERT)) {
@@ -170,7 +171,7 @@ class NoteServiceImpl implements NoteService {
     @Override
     public void editNote(Authentication user, int noteId, String newTitle, String newText) throws SQLException {
         String login = user.getName();
-        String password = user.getPrincipal().toString();
+        String password = user.getCredentials().toString();
 
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
             try (PreparedStatement ps = connection.prepareStatement(TableNotes.UPDATE)) {
@@ -191,7 +192,7 @@ class NoteServiceImpl implements NoteService {
     @Override
     public void deleteNote(Authentication user, int noteId) throws SQLException {
         String login = user.getName();
-        String password = user.getPrincipal().toString();
+        String password = user.getCredentials().toString();
 
         try (Connection connection = DiaryUtils.getConnection(login, password)) {
             try (PreparedStatement ps = connection.prepareStatement(TableNotes.DELETE)) {
