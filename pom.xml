@@ -4,18 +4,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zaynukov.dev</groupId>
-    <artifactId>angel-diary</artifactId>
-    <version>0.1.SNAPSHOT</version>
+    <artifactId>personal-diary</artifactId>
+    <version>1.0.RELEASE</version>
     <packaging>war</packaging>
 
-    <name>The Angel Diary</name>
+    <name>The Personal Diary</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring.v>5.1.2.RELEASE</spring.v>
-        <spring.boot.v>2.1.2.RELEASE</spring.boot.v>
+        <spring.boot.v>2.1.3.RELEASE</spring.boot.v>
     </properties>
 
     <parent>
