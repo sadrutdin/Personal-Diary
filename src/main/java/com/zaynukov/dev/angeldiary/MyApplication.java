@@ -19,7 +19,6 @@ public class MyApplication {
         SpringApplication.run(MyApplication.class, args);
 
         String url = "http://localhost:7979";
-
         openOnDefaultBrowser(url);
     }
 

@@ -35,7 +35,8 @@ public class DiaryProcessingController {
                                    @RequestParam String title,
                                    @RequestParam String text) {
 
-        if (user == null) return new ModelAndView("redirect:/");
+        if (user == null) // Если пользователь не вошёл в дневник
+            return new ModelAndView("redirect:/"); // Отправить на страницу входа
 
         try {
             noteService.saveNote(user, title, text);
@@ -73,7 +74,6 @@ public class DiaryProcessingController {
 
     @PostMapping("/main")
     public String noteList2() {
-
         return "redirect:/main";
     }
 
