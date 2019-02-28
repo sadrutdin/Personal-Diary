@@ -23,5 +23,5 @@ The code is available, clear, so you can easily add or change application proper
 **How to build and run application?**
 
 1. `cd THIS_PROJECT_FOLDER`
-2. `mvn clean package spring-boot:run`
+2. `mvn clean package spring-boot:repackage`
 3. `java -jar target/personal-diary-1.0.RELEASE.war`
