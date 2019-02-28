@@ -87,12 +87,11 @@ public class DiaryProcessingController {
 
         try {
             noteService.editNote(user, id, title, text);
+            return new ModelAndView("redirect:/main");
         } catch (SQLException e) {
             logger.error("Ошибка при работе с БД", e);
             return new ModelAndView("redirect:/");
         }
-
-        return new ModelAndView("redirect:/main");
     }
 
 

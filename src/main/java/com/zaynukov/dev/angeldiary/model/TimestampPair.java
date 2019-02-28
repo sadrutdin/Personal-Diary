@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public final class TimestampPair {
-    private Timestamp begin, end;
+    private final Timestamp begin, end;
 
     public Timestamp getBegin() {
         return begin;

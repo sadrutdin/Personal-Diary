@@ -13,7 +13,7 @@ import java.net.URISyntaxException;
 @SpringBootApplication
 public class MyApplication {
 
-    private static Logger logger = LoggerFactory.getLogger(MyApplication.class);
+    private final static Logger logger = LoggerFactory.getLogger(MyApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(MyApplication.class, args);

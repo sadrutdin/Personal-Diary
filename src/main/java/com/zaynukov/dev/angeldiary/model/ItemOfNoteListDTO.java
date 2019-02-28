@@ -19,7 +19,6 @@ public class ItemOfNoteListDTO implements Serializable, Comparable<ItemOfNoteLis
         this.id = id;
         this.title = title;
         this.createDateTime = createDateTime;
-
     }
 
     public ItemOfNoteListDTO(int id,
