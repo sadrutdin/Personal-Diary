@@ -25,3 +25,5 @@ The code is available, clear, so you can easily add or change application proper
 1. `cd THIS_PROJECT_FOLDER`
 2. `mvn clean package spring-boot:repackage`
 3. `java -jar target/personal-diary-1.0.RELEASE.war`
+***
+*The app was created for my darling friend.*
